@@ -16,7 +16,7 @@
     <title>오목</title>
     <!-- ============================== JS Script 시작 ==============================  -->
     <!-- 게임 코어 자바 스크립트 로직 -->
-    <script type="text/javascript">     
+    <script type="text/javascript">
                /* ********** 상수 선언 ********** */
                const STONE_NONE = 0;         // 아무돌도 없는 상태
                const STONE_BLACK = 1;        // 흑돌 상태
@@ -77,7 +77,7 @@
 			 // 게임판 2차원 배열 및 스택 선언
 			 board = new Array();
 			 board_stack = new Array();
-			 
+
 			 // board 2차원 배열 초기화
 			 for(var i=0; i<BOARD_SIZE; i++){
 			 board[i] = new Array();
@@ -169,7 +169,7 @@
                function put_stone(e){
 			 if(!is_gamestart()) // 게임이 진행중이지 않을경우
 	               return;
-		 
+
 			 var x = 0;
 			 var y = 0;
 			 // 좌표계에서의 판 한칸 크기 저장용 변수
@@ -180,15 +180,15 @@
 			 var b = (e.offsetY - CANVAS_MARGIN) % sz;
 
 			 // 가장 가까운 교점 좌표로 조정 시켜주는 로직
-			 if(a <= sz/2){ 
-			 x = e.offsetX - a - 1; 
-	           }else{ 
-			 x = e.offsetX + (sz-a) - 1; 
-	           } 
-			 if(b <= sz/2){ 
-			 y = e.offsetY - b - 1; 
-	           }else{ 
-			 y = e.offsetY + (sz-b) - 1; 
+			 if(a <= sz/2){
+			 x = e.offsetX - a - 1;
+	           }else{
+			 x = e.offsetX + (sz-a) - 1;
+	           }
+			 if(b <= sz/2){
+			 y = e.offsetY - b - 1;
+	           }else{
+			 y = e.offsetY + (sz-b) - 1;
 	           }
 
 			 // 소수점 반올림 처리
@@ -220,10 +220,10 @@
 			 // 금수 판정 위해 일단 판에 착수 시행
 			 board[y][x] = tmp_color;
 			 // 돌이 한개라도 판에 놓여진 순간 무르기 버튼 활성화
-			 
-			 if(board_stack.length != 0)  
+
+			 if(board_stack.length != 0)
 		           document.getElementById("back_button").disabled = false;
-			 
+
 			 var result = check_pointer(x, y, tmp_color, board);
 			 // 정상적인 착수 판정 받았을 경우
 			 if(result == null){
@@ -268,60 +268,60 @@
 
                /* ********** 게임 표시 관련 ********** */
                // 판 그리기 루틴
-               function stroke_board(){ 
-			 var mycanvas = document.getElementById(CANVAS_ID); 
-			 var context = mycanvas.getContext("2d"); 
+               function stroke_board(){
+			 var mycanvas = document.getElementById(CANVAS_ID);
+			 var context = mycanvas.getContext("2d");
 
 			 // 판 배경색 그리기
-			 context.fillStyle = "#d9c049"; 
+			 context.fillStyle = "#d9c049";
 			 context.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 			 // 칸 경계선들 그리기
-			 context.strokeStyle = "#333333"; 
-			 for(var x=CANVAS_MARGIN; x<=CANVAS_SIZE - CANVAS_MARGIN*2; x+=(CANVAS_GAME_SIZE/(BOARD_SIZE - 1))) { 
-			 for(var y=CANVAS_MARGIN; y<=CANVAS_SIZE - CANVAS_MARGIN*2; y+=(CANVAS_GAME_SIZE/(BOARD_SIZE - 1))) { 
-				 context.strokeRect(x, y, ((CANVAS_SIZE - CANVAS_MARGIN)/(BOARD_SIZE - 1)), ((CANVAS_SIZE - CANVAS_MARGIN)/(BOARD_SIZE - 1))); 
-	               } 
-	           } 
-			 
+			 context.strokeStyle = "#333333";
+			 for(var x=CANVAS_MARGIN; x<=CANVAS_SIZE - CANVAS_MARGIN*2; x+=(CANVAS_GAME_SIZE/(BOARD_SIZE - 1))) {
+			 for(var y=CANVAS_MARGIN; y<=CANVAS_SIZE - CANVAS_MARGIN*2; y+=(CANVAS_GAME_SIZE/(BOARD_SIZE - 1))) {
+				 context.strokeRect(x, y, ((CANVAS_SIZE - CANVAS_MARGIN)/(BOARD_SIZE - 1)), ((CANVAS_SIZE - CANVAS_MARGIN)/(BOARD_SIZE - 1)));
+	               }
+	           }
+
 			 context.beginPath();
-			 context.closePath(); 
-			 context.fillStyle = "#000000";                   
-			 context.fill(); 
+			 context.closePath();
+			 context.fillStyle = "#000000";
+			 context.fill();
                }
                // 돌 그리기 루틴
                function fillStone2(_x,_y,_stone){
-			 var mycanvas = document.getElementById(CANVAS_ID); 
-			 var context = mycanvas.getContext("2d"); 
-			 
-			 context.beginPath(); 
+			 var mycanvas = document.getElementById(CANVAS_ID);
+			 var context = mycanvas.getContext("2d");
+
+			 context.beginPath();
 			 var stone_size = (CANVAS_GAME_SIZE/(BOARD_SIZE - 1));
 			 // 돌 그릴 좌표에 판 여백 좌표 만큼 더하는 처리들
 			 var x=_x*stone_size+CANVAS_MARGIN;
 			 var y=_y*stone_size+CANVAS_MARGIN;
 
 			 context.arc(x, y, stone_size/2, 0, Math.PI*2);
-			 context.closePath(); 
+			 context.closePath();
 
 			 // 선수 변경시 사용자에게 보이는 색깔만 변경
 			 if(_stone==STONE_BLACK)
 	               context.fillStyle = stone_black_color;
-			 else if(_stone==STONE_WHITE) 
+			 else if(_stone==STONE_WHITE)
 	               context.fillStyle = stone_white_color;
-			 
-			 context.fill(); 
-			 
+
+			 context.fill();
+
                };
                // 판 출력 인터페이스
                function print_board(_board){
 			 stroke_board(); 	 // 칸 경계선 그리기
-			 
-			 var mycanvas = document.getElementById("mycanvas"); 
-			 var context = mycanvas.getContext("2d"); 
-			 
+
+			 var mycanvas = document.getElementById("mycanvas");
+			 var context = mycanvas.getContext("2d");
+
 			 context.beginPath();
-			 context.closePath(); 
-			 context.fillStyle = "#000000";                   
-			 context.fill(); 
+			 context.closePath();
+			 context.fillStyle = "#000000";
+			 context.fill();
 
 			 // 현재 판 상태 배열을 참조하여 판에 돌들 그려주는 루틴
 			 for(var _x=0;_x<BOARD_SIZE;_x++)
@@ -360,13 +360,13 @@
                // 착수,금수 처리 루틴
                function check_pointer(_x, _y, _stone, _board){
 			 var x, y;
-			 
+
 			 // 돌 카운트 변수들
 			 var count;       // 단순 카운팅
 			 var count_black; // 흑돌 카운팅
 			 var count_none;  // 빈칸 카운팅
 			 var count_white; // 백돌 카운팅
-			 
+
 			 // 3x3, 4x4 판단용 boolean 변수들
 			 var hori_33 = false;  // 가로 33
 			 var vert_33 = false;  // 세로 33
@@ -376,7 +376,7 @@
 			 var vert_44 = false;  // 세로 44
 			 var ltrb_44 = false;  // 대각선↘ 44
 			 var rtlb_44 = false;  // 대각선↙ 44
-			 
+
 			 if(_stone == STONE_BLACK){ // 금수는 흑에게만 적용
 			 /*      3*3 판별 로직      */
 			 // 가로 방향 카운팅
@@ -410,7 +410,7 @@
 			 var tmp_hori_33 = true;
 			 if(count_none <= count_white)
 		           tmp_hori_33 = false;
-			 
+
 			 // 가로 좌 방향
 			 for(var i=1; i<4; i++){
 	 			 // 게임판 탈출 방지 루틴
@@ -466,7 +466,7 @@
 			 var tmp_vert_33 = true;
 			 if(count_none <= count_white)
 		           tmp_vert_33 = false;
-			 
+
 			 // 세로 상 방향
 			 for(var i=1; i<4; i++){
 				 // 게임판 탈출 방지 루틴
@@ -497,7 +497,7 @@
 			 count_black = 1;
 			 count_none = 0;
 			 count_white = 0;
-			 
+
 			 // 대각선 우 방향
 			 for(var i=1; i<4; i++){
 				 // 게임판 탈출 방지 루틴
@@ -522,7 +522,7 @@
 			 var tmp_ltrb_33 = true;
 			 if(count_none <= count_white)
 		           tmp_ltrb_33 = false;
-			 
+
 			 // 대각선 좌 방향
 			 for(var i=1; i<4; i++){
 				 // 게임판 탈출 방지 루틴
@@ -603,7 +603,7 @@
 			 if(count_none-count_white > 3 && tmp_rtlb_33 && count_black == 3)
 		           rtlb_33 = true;  // 대각선↙ 방향 33 판정
 
-			 
+
 			 /*      4*4 판별 로직      */
 			 // 가로
 			 x = _x;
@@ -626,7 +626,7 @@
 				 break;
 		           }
 	               }
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(x-i < 0)
 		               break;
@@ -652,7 +652,7 @@
 			 count_black = 1;
 			 count_none = 0;
 			 count_white = 0;
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y+i > BOARD_SIZE-1)
 		               break;
@@ -667,7 +667,7 @@
 				 break;
 		           }
 	               }
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y-i < 0)
 		               break;
@@ -693,7 +693,7 @@
 			 count_black = 1;
 			 count_none = 0;
 			 count_white = 0;
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y+i > BOARD_SIZE-1 || x+i > BOARD_SIZE-1)
 		               break;
@@ -708,7 +708,7 @@
 				 break;
 		           }
 	               }
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y-i < 0 || x-i < 0)
 		               break;
@@ -734,7 +734,7 @@
 			 count_black = 1;
 			 count_none = 0;
 			 count_white = 0;
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y+i > BOARD_SIZE-1 || x-i < 0)
 		               break;
@@ -749,7 +749,7 @@
 				 break;
 		           }
 	               }
-			 
+
 			 for(var i=1; i<5; i++){
 				 if(y-i < 0 || x+i > BOARD_SIZE-1)
 		               break;
@@ -810,7 +810,7 @@
 				 y--;
 				 x--;
 	               }
-			 
+
 			 do{
 				 ltrb_44 = ltrb_44.concat(_board[y][x]);
 	               }while(++y < BOARD_SIZE && ++x < BOARD_SIZE)
@@ -839,7 +839,7 @@
 		           + (''+STONE_NONE)
 		           + (''+STONE_BLACK)
 		           + (''+STONE_BLACK);
-			 
+
 			 pt2 = (''+STONE_BLACK)
 		           + (''+STONE_NONE)
 		           + (''+STONE_BLACK)
@@ -988,7 +988,7 @@
                }
             </script>
     <!-- 간단한 선행 처리 자바스크립트 -->
-    <script> 
+    <script>
                          window.onload = function() {
 					 stroke_board(); // 보드 그리기
 					 // 이벤트 핸들러 등록
@@ -1004,7 +1004,7 @@
 					 // 선수 변경 라디오 버튼 핸들러 등록
 					 document.querySelectorAll("input[type=radio][name=who_first]")[1].onchange = function(){
 					 change_first();
-	                     }; 
+	                     };
 
 					 // 엘리먼트 초기 상태 지정
 					 document.getElementById("back_button").disabled = true;        // 무르기 버튼 비활성화
@@ -1028,13 +1028,13 @@
                                 width: 1000px; height: 700px;
                                 background-color: skyblue;
                               }
-                              
+
 
                               .left {
                                 border-right : 1px solid black;
                                 float: left;
                                 width: 700px; height: 700px;
-                                
+
                               }
 
                               .right{
@@ -1042,7 +1042,7 @@
                                 float: right;
                                 float: bottom;
                                 width: 270px; height: 700px;
-                                
+
                               }
 
                               .boxframe{
@@ -1059,14 +1059,14 @@
                                 /*        border :1px solid black; */
                                 position: absolute;
                               }
-                              
+
                               .box2{
                                 width: 150px; height: 120px;
                                 margin: 0px 0px 0px 100px;
                                 /*        border :1px solid black; */
                                 position: absolute;
                               }
-                              
+
                               .box3{
                                 width: 220px; height: 70px;
                                 margin: 140px 0px 0px 38px;
@@ -1100,56 +1100,56 @@
                                 transition: all 0.1s;
                                 text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
                               }
-                              
+
                               .btn:active{
                                 transform: translateY(3px);
                               }
-                              
+
                               .btn:inactive{
-                                
+
                               }
-                              
+
                               .btn.small{
                                 font-size: 1em;
                                 text-shadow: 0px -1px rgba(0, 0, 0, 0.44);
                               }
-                              
+
                               .btn.text-color-reverse{
                                 color: black;
                               }
-                              
+
                               .btn.blue{
                                 background-color:#1f75d9;
                                 /*        border-bottom: 5px solid #165195; */
                               }
-                              
+
                               .btn.blue:active{
                                 /*        border-bottom: 2px solid #165195; */
                               }
-                              
+
                               .btn.red{
                                 background-color:#ff521e;
                                 /*        border-bottom: 5px solid #c1370e; */
                               }
-                              
+
                               .btn.red:active{
                                 /*        border-bottom: 2px solid #c1370e; */
                               }
-                              
+
                               .btn.yellow{
                                 background-color:#eded1d;
                                 /*        border-bottom: 5px solid #c1c11e; */
                               }
-                              
+
                               .btn.yellow:active{
                                 /*        border-bottom: 5px solid #c1c11e; */
                               }
-                              
+
                               .btn.gray{
                                 background-color:#41413a;
                                 /*        border-bottom: 5px solid #1d1d1b; */
                               }
-                              
+
                               .btn.gray:active{
                                 /*        border-bottom: 5px solid #1d1d1b; */
                               }
@@ -1191,7 +1191,7 @@
 	  </div>
           <div class=box4>
 	    <!-- 	    게임 로그 출력용 textarea -->
-	    <textarea name="gamelog" rows="18" cols="41" readonly></textarea>
+	    <textarea name="gamelog" rows="19" cols="35" readonly></textarea>
 	  </div>
           <div class=box5>
 	    <input id="exit_button" type="button" class="btn red" value="종 료" />
