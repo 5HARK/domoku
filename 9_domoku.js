@@ -80,6 +80,9 @@ function is_whitefirst(){
 function is_blackturn(){
     return blackturn;
 }
+
+
+
 /* ********** 게임 상태 관련 ********** */
 // 선수 바꾸기 루틴
 function change_first(){
